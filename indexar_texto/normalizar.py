@@ -3,6 +3,33 @@ import re
 
 
 
+def limpiar_texto(texto):
+
+    # quito acento
+    texto = re.sub(r'[á]', 'a', texto)
+    texto = re.sub(r'[é]', 'e', texto)
+    texto = re.sub(r'[í]', 'i', texto)
+    texto = re.sub(r'[ó]', 'o', texto)
+    texto = re.sub(r'[ú]', 'u', texto)
+    #quito signo de puntuacion
+    texto = re.sub(r'[.()\[\]{}\?!]', '', texto)
+
+    return texto
+
+
+def stemming(texto):
+
+    ps = nltk.PorterStemmer()
+    nuevo_texto = limpiar_texto(texto)
+    token = nuevo_texto.split()
+
+    lista_palabras=[]
+    for x in token:
+        if len(x) > 2:
+            palabra = ps.stem(x)
+            lista_palabras.append(palabra)
+    return " ".join(lista_palabras)
+
 def stop_world(token):
 
     #token = recibe una lista y le quita las palabras inecesarias
@@ -57,31 +84,8 @@ def stop_world(token):
     return lista_sin_sw
 
 
-def limpiar_texto(texto):
+#finalizar
 
-    # quito acento
-    texto = re.sub(r'[á]', 'a', texto)
-    texto = re.sub(r'[é]', 'e', texto)
-    texto = re.sub(r'[í]', 'i', texto)
-    texto = re.sub(r'[ó]', 'o', texto)
-    texto = re.sub(r'[ú]', 'u', texto)
-    #quito signo de puntuacion
-    texto = re.sub(r'[.()\[\]{}\?!]', '', texto)
-
-    return texto
-
-def stemming(texto):
-
-    ps = nltk.PorterStemmer()
-    nuevo_texto = limpiar_texto(texto)
-    token = nuevo_texto.split()
-
-    lista_palabras=[]
-    for x in token:
-        if len(x) > 2:
-            palabra = ps.stem(x)
-            lista_palabras.append(palabra)
-    return " ".join(lista_palabras)
 
 def quitar_palabras_claves_dic(texto):
 
