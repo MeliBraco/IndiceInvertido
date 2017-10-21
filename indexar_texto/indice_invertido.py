@@ -1,12 +1,12 @@
 import normalizar
 
-def  value_cantidad_repeticiones(texto):
+def  indiceInvertido_cantidad_repeticiones(texto):
 
-    clave_dic = normalizar.quitar_palabras_claves_dic(texto)
+    clave_dic = normalizar.lista_palabras_claves(texto)
 
     dic_palabras = {}
     for x in clave_dic:
-        dic_palabras[x] = normalizar.stemming(texto).count(x)
+        dic_palabras[x] = normalizar.texto_raiz(texto).count(x)
 
     return dic_palabras
 
@@ -15,5 +15,6 @@ def  value_cantidad_repeticiones(texto):
 
 
 #en español no funciona bien
-texto = "melina mélina.) a por pero nosotros casa casas"
-print(value_cantidad_repeticiones(texto))
+texto = "melina mélina.) a por pero nosotros, !casa casas $ Hola Python"
+print(normalizar.texto_raiz(texto))
+print(indiceInvertido_cantidad_repeticiones(texto))

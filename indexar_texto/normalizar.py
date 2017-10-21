@@ -3,7 +3,7 @@ import re
 
 
 
-def limpiar_texto(texto):
+def quitar_simbolos_noAlfanumericos(texto):
 
     # quito acento
     texto = re.sub(r'[á]', 'a', texto)
@@ -12,7 +12,7 @@ def limpiar_texto(texto):
     texto = re.sub(r'[ó]', 'o', texto)
     texto = re.sub(r'[ú]', 'u', texto)
     #quito signo de puntuacion
-    texto = re.sub(r'[.()\[\]{}\?!]', '', texto)
+    texto = re.sub(r'[\d.()\[\]{}\&%$#=:\-,*?¿¡!\'\"]', '', texto)
 
     return texto
 
@@ -20,8 +20,7 @@ def limpiar_texto(texto):
 def stemming(texto):
 
     ps = nltk.PorterStemmer()
-    nuevo_texto = limpiar_texto(texto)
-    token = nuevo_texto.split()
+    token = texto.split()
 
     lista_palabras=[]
     for x in token:
@@ -30,7 +29,7 @@ def stemming(texto):
             lista_palabras.append(palabra)
     return " ".join(lista_palabras)
 
-def stop_world(token):
+def stop_world(lista):
 
     #token = recibe una lista y le quita las palabras inecesarias
 
@@ -78,21 +77,30 @@ def stop_world(token):
                              'tuviesen', 'teniendo', 'tenido', 'tenida', 'tenidos', 'tenidas', 'tened', ''])
 
     lista_sin_sw = []
-    for x in token:
+    for x in lista:
         if x not in _STOP_WORDS:
             lista_sin_sw.append(x)
     return lista_sin_sw
 
 
-#finalizar
 
 
-def quitar_palabras_claves_dic(texto):
+#devuelve texto raiz
+def texto_raiz(texto):
 
-    texto_limpio = stemming(texto).split()
-    texto_listo = stop_world(texto_limpio)
+    texto_1 = quitar_simbolos_noAlfanumericos(texto)
+    texto_2 = stemming(texto_1).split()
+    texto_3 = stop_world(texto_2)
+
+    return(" ".join(texto_3))
+
+#lista con palabras claves del texto raiz eliminado duplicados
+def lista_palabras_claves(texto):
+
+    #el texto raiz lo divido en tokens
+    texto_limpio = texto_raiz(texto).split()
 
     #creo un conjunto eliminando repeticiones que seran usadas como clave
-    claves_dic = set(texto_listo)
-    return claves_dic
+    lista_clave = set(texto_limpio)
+    return lista_clave
 
