@@ -5,33 +5,55 @@ class indexar_texto_mapreduce():
 
     def nose(self):
 
-        texto1 = open('C:/Users/Melina/PycharmProjects/indice_invertido/indexar_texto/Textos/El inspector.txt' , 'r').read()
-        texto2 = open('C:/Users/Melina/PycharmProjects/indice_invertido/indexar_texto/Textos/El perrito que no podia caminar.txt','r').read()
+        #importo los textos
+        texto1 = open('C:/Users/Melina/PycharmProjects/indice_invertido/indexar_texto/Textos/texto1.txt',
+                      'r').read()
+        texto2 = open(
+            'C:/Users/Melina/PycharmProjects/indice_invertido/indexar_texto/Textos/texto2.txt',
+            'r').read()
 
+        #texto normalizado
         self.t1_raiz = normalizar.texto_raiz(texto1)
         self.t2_raiz = normalizar.texto_raiz(texto2)
 
-        total_clave = normalizar.texto_raiz(texto1+texto2).split()
+        #lista con el total de claves
+        self.lista_claves = (self.t1_raiz + " " + self.t2_raiz).split()
 
-        lista_intermedia = map(self.funcion_map, total_clave)
-        resultado = functools.reduce(self.funcion_reduce() ,lista_intermedia)
+        #quito repeticiones
+        self.conjunto_claves = set(self.lista_claves)
 
 
-        return lista_intermedia
+        lista_intermedia = list(map(self.funcion_map, self.conjunto_claves))
 
-    def funcion_map(self,x):
+        print(lista_intermedia)
+
+        self.dic = {}
+        for x in lista_intermedia:
+            lista_interna = x
+            for y in lista_interna:
+                resultdo = functools.reduce(self.funcion_reduce,y)
+
+        print(resultdo)
+
+    def funcion_map(self, clave):
 
         lista = []
-        if x in self.t1_raiz:
-            lista.append((x,'1'))
-        if x in self.t2_raiz:
-            lista.append((x,'2'))
+        if clave in self.t1_raiz:
+            lista.append((clave,'1'))
+        if clave in self.t2_raiz:
+            lista.append((clave, '2'))
+        return lista
 
-        print (lista)
+    def funcion_reduce(self, palabra, id_texto):
 
-    def funcion_reduce(self,x):
+        if palabra not in self.dic:
+            lista = []
+            lista.append(id_texto)
+            self.dic[palabra] = lista
+        else:
+            self.dic[palabra].append(id_texto)
+        return self.dic
 
-        dic ={}
 
 
 

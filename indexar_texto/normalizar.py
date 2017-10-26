@@ -94,13 +94,4 @@ def texto_raiz(texto):
 
     return(" ".join(texto_3))
 
-#lista con palabras claves del texto raiz eliminado duplicados
-def lista_palabras_claves(texto):
-
-    #el texto raiz lo divido en tokens
-    texto_limpio = texto_raiz(texto).split()
-
-    #creo un conjunto eliminando repeticiones que seran usadas como clave
-    lista_clave = set(texto_limpio)
-    return lista_clave
 

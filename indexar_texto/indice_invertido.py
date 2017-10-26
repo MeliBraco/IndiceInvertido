@@ -2,10 +2,12 @@ import normalizar
 
 def  indiceInvertido_cantidad_repeticiones(texto):
 
-    clave_dic = normalizar.lista_palabras_claves(texto)
+    lista_clave = normalizar.texto_raiz(texto).split()
+    #elimino repetdos paso a lista a un conjunto
+    conjunto_claves = set(lista_clave)
 
     dic_palabras = {}
-    for x in clave_dic:
+    for x in conjunto_claves:
         dic_palabras[x] = normalizar.texto_raiz(texto).count(x)
 
     return dic_palabras
